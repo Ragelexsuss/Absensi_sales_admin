@@ -266,7 +266,7 @@ class KelolaAkunAdmin extends Component
                 'updated_at' => now()->toDateTimeString(),
             ]);
             DB::commit();
-            $this->closeModalAddKota();
+            $this->closeModalAddAkun();
             session()->flash('success', 'Akun berhasil ditambahkan!');
 
 

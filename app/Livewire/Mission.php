@@ -85,7 +85,7 @@ public $user;
             }
             if ($data->status === false){
                 $this->openModal = false;
-                throw new \Exception('Lokasi Ini Tidak Valid');
+                throw new \Exception('Lokasi Ini Tidak Valid' . $this->selectedLocation);
             }
 
             // Get count from MySQL
@@ -150,14 +150,14 @@ public $user;
             $missionRef = $database->collection('users')
                 ->document($this->idSales)
                 ->collection('mission')
-                ->where('idMission', '=', $missionId);
+                ->where('idMission', '=', (int)$missionId);
             $snapshot = $missionRef->documents();
             foreach ($snapshot as $document) {
                 if ($document->exists()) {
                     $documentref = $database->collection('users')->document($this->idSales)->collection('mission')->document($document->id());
                     // Update Firestore mission status
                     $documentref->update([
-                        ['path' => 'status', 'value' => $valid],
+                        ['path' => 'status', 'value' => true],
                     ]);
                     break;
                 }else{

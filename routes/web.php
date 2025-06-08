@@ -27,7 +27,19 @@ Route::middleware('auth')->group(function () {
             return view('kelola_map');
         })->name('kelola_map');
         route::get('/home/kelola_map/map', [\App\Http\Controllers\LokasiMap::class, 'index'])->name('map');
+        route::get('/home/laporan_sales', function () {
+            return view('laporan_sales');
+        })->name('laporan_sales');
+        route::get('/home/laporan_sales/detail_laporan_sales', function () {
+            return view('detail_laporan_sales');
+        })->name('detail_laporan_sales');
+        route::get('/home/laporan_sales/detail_laporan_sales/hari', function () {
+            return view('detail_laporan_sales_hari');
+        })->name('detail_laporan_sales_hari');
     });
+
+
+
     Route::middleware('authlogin:supervisor')->group(function () {
         route::name('home.')->group(function () {
             route::get('/home/kelola_akun', function () {
@@ -49,15 +61,7 @@ Route::middleware('auth')->group(function () {
                 return view('gudang');
             })->name('gudang');
 
-            route::get('/home/laporan_sales', function () {
-                return view('laporan_sales');
-            })->name('laporan_sales');
-            route::get('/home/laporan_sales/detail_laporan_sales', function () {
-                return view('detail_laporan_sales');
-            })->name('detail_laporan_sales');
-            route::get('/home/laporan_sales/detail_laporan_sales/hari', function () {
-                return view('detail_laporan_sales_hari');
-            })->name('detail_laporan_sales_hari');
+
         });
 
 

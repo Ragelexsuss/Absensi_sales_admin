@@ -13,10 +13,13 @@ select * from t0sales_locations;
 select * from t0sales_order_reports;
 select * from t0areas;
 select * from t0gudangs;
+select * from store_visits;
 
 
 
 delete from t0lokasi;
+delete from t0mission;
+
 
 DELETE from t0sales_reports;
 DELETE from t0sales_locations;

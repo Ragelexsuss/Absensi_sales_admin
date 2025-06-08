@@ -1,5 +1,4 @@
 <div class="flex flex-col h-screen">
-    <p>{{$user->t0_role->nama_role}}</p>
     <!-- Header Section (Fixed) -->
     <div class="bg-white shadow-sm lg:sticky top-0 z-10">
         <div class="grid grid-cols-1">
@@ -57,7 +56,7 @@
                                 @endif
                             </div>
                         </td>
-                        <td class="px-6 py-4">{{$item->lokasi->address}}</td>
+                        <td class="px-6 py-4">{{$item->lokasi->namaToko}}</td>
                         <td class="px-6 py-4">
                             @if($item->status === true)
                                 <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Aktif</span>
@@ -119,9 +118,9 @@
                                 <div class="max-h-96 overflow-y-auto">
                                     <ul class="divide-y divide-gray-200">
                                         @forelse($lokasi as $location)
-                                            <li wire:click="selectLocation({{ $location->id }})"
+                                            <li wire:click="selectLocation({{ $location->id_lokasi }})"
                                                 class="px-4 py-4 cursor-pointer hover:bg-gray-50 transition-colors
-                                {{ $selectedLocation == $location->id ? 'bg-gray-100' : '' }}">
+                                {{ $selectedLocation == $location->id_lokasi ? 'bg-gray-100' : '' }}">
                                                 <div class="flex items-center">
                                                     <!-- Location Photo -->
                                                     <div class="flex-shrink-0 h-16 w-16">
@@ -140,10 +139,10 @@
                                                     <div class="ml-4">
                                                         <div class="text-sm font-medium text-gray-900">
                                                             {{ $location->name }}
-                                                            @if($selectedLocation == $location->id)
+                                                            @if($selectedLocation == $location->id_lokasi)
                                                                 <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                Dipilih
-                                            </span>
+                                                                    Dipilih
+                                                                </span>
                                                             @endif
                                                         </div>
                                                         <div class="text-sm text-gray-500">

@@ -29,10 +29,7 @@
                     Total_harga
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    order_date
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Action
+                    Jumlah order (Box)
                 </th>
             </tr>
             </thead>
@@ -50,9 +47,6 @@
                     </td>
                     <td class="px-6 py-4">
                         {{$item['quantity_order']}}
-                    </td>
-                    <td class="px-4 py-4 ">
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" ><h1>setujui</h1></button>
                     </td>
                 </tr>
             @empty

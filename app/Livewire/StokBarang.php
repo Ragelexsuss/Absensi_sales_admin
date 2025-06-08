@@ -59,7 +59,7 @@ class StokBarang extends Component
 
     public function closeProdukModal()
     {
-        $this->showeditModal = false;
+        $this->showProductModal = false;
         $this->reset([
             'idbarang',
             'nama_barang',
@@ -85,7 +85,7 @@ class StokBarang extends Component
 
     public function closeEditModal()
     {
-        $this->showProductModal = false;
+        $this->showeditModal = false;
         $this->reset([
             'edit_idbarang',
             'edit_nama_barang',
@@ -227,7 +227,7 @@ class StokBarang extends Component
                 }
             }
             DB::commit();
-            $this->closeProdukModal();
+            $this->closeEditModal();
             session()->flash('success', 'Produk berhasil Diedit!');
             $this->dispatch('refreshProducts');
 

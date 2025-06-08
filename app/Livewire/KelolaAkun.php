@@ -22,6 +22,8 @@ class KelolaAkun extends Component
    public $searchbaru;
     public $searchtetap;
     public $idarea;
+    public $status;
+    public  $firestoreStatus;
 
    public $showModal =  false;
     public $selectedSales = [
@@ -56,7 +58,7 @@ class KelolaAkun extends Component
             'selectedSales.alamat' => 'required',
             'selectedSales.noTelepon' => 'required',
             'selectedSales.email' => 'required|email',
-            'selectedSales.status' => 'required|in:Aktif,Nonaktif' // Ensure status is either Aktif or Nonaktif
+             // Ensure status is either Aktif or Nonaktif
         ]);
 
         DB::beginTransaction();
@@ -65,11 +67,19 @@ class KelolaAkun extends Component
             $database = $firestore->database();
             $usersRef = $database->collection('users');
 
-            // Convert status to boolean for Firestore
-            $firestoreStatus = $validatedData['selectedSales']['status'] === 'Aktif';
+
 
             // Find and update MySQL first
             $sales = akun_sales::query()->where('id_sales', $this->selectedSales['id_sales'])->first();
+            // Convert status to boolean for Firestore
+            if ($this->status == "Aktif"){
+                $this->firestoreStatus = true;
+            } else if ($this->status == "Nonaktif"){
+                $this->firestoreStatus = false;
+            } else{
+                $this->firestoreStatus = true;
+            }
+
 
             if (!$sales) {
                 throw new \Exception('Akun sales tidak ditemukan di database');
@@ -81,7 +91,7 @@ class KelolaAkun extends Component
                 'alamat' => $validatedData['selectedSales']['alamat'],
                 'noTelepon' => $validatedData['selectedSales']['noTelepon'],
                 'email' => $validatedData['selectedSales']['email'],
-                'status' => $firestoreStatus // This ensures MySQL gets the same boolean value
+                'status' => $this->firestoreStatus // This ensures MySQL gets the same boolean value
             ]);
 
             // Find and update Firestore
@@ -96,7 +106,7 @@ class KelolaAkun extends Component
                 if ($document->exists()) {
                     $documentRef = $usersRef->document($document->id());
                     $documentRef->update([
-                        ['path' => 'status', 'value' => $firestoreStatus],
+                        ['path' => 'status', 'value' => $this->firestoreStatus],
                         ['path' => 'namaPanjang', 'value' => $this->selectedSales['namaPanjang']],
                         ['path' => 'alamat', 'value' => $this->selectedSales['alamat']],
                         ['path' => 'noTelepon', 'value' => $this->selectedSales['noTelepon']],
@@ -113,7 +123,9 @@ class KelolaAkun extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->addError('sales', 'Gagal mengupdate data: '.$e->getMessage());
+            $this->closeModal();
+            $this->reset($this->status);
+            $this->addError('firebase', 'Gagal mengupdate data: '.$e->getMessage());
             return false;
         }
     }
@@ -133,7 +145,7 @@ class KelolaAkun extends Component
                     $this->id_mission = $document->id();
 
 //          cek apakah data sudah ada di sql
-                    $existingSales = \App\Models\mission::query()->where('id_mission',$data['idMission'])->first();
+                    $existingSales = \App\Models\mission::query()->where('id_mission',$data['idMission'])->where('id_sales', $idSales)->first();
                     if($existingSales){
                         $existingSales->update([
                             'id_sales' => $idSales,
