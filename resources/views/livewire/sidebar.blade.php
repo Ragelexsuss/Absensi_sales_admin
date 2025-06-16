@@ -20,28 +20,31 @@
     </div>
 
 {{--    Dashboard Button    --}}
-    <div class="grid grid-cols-6 items-center w-full h-auto rounded-lg mt-5">
-        <!-- Button inside div -->
-        <button class="col-span-6 flex items-center bg-transparent hover:bg-white transition-all duration-300 group hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 active:scale-95 rounded-lg p-2">
-            <!-- Kolom Ikon -->
-            <div class="flex items-center justify-center col-span-2 h-auto">
-                <div class="w-20">
-                    <div class="w-auto bg-white rounded-lg p-4 group-hover:p-5 transition-all duration-300 group-hover:bg-blue-50">
-                        <i class="fa-solid fa-house text-2xl text-gray-600 group-hover:text-3xl group-hover:text-blue-600 transition-all duration-300"></i>
+    <div class="w-full h-auto rounded-lg mt-5">
+        <form action="{{route('dashboard')}}" method="get" class="grid grid-cols-6 items-center">
+            <!-- Button inside div -->
+            <button class="col-span-6 flex items-center bg-transparent hover:bg-white transition-all duration-300 group hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 active:scale-95 rounded-lg p-2">
+                <!-- Kolom Ikon -->
+                <div class="flex items-center justify-center col-span-2 h-auto">
+                    <div class="w-20">
+                        <div class="w-auto bg-white rounded-lg p-4 group-hover:p-5 transition-all duration-300 group-hover:bg-blue-50">
+                            <i class="fa-solid fa-house text-2xl text-gray-600 group-hover:text-3xl group-hover:text-blue-600 transition-all duration-300"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Kolom Teks -->
-            <div class="col-span-4 px-4 text-left">
-                <p class="text-white font-medium group-hover:text-lg group-hover:text-blue-700 transition-all duration-300">
-                    Menu Utama
-                </p>
-                <p class="text-sm text-white group-hover:text-md group-hover:text-gray-600 transition-all duration-300 mt-1">
-                    Kembali ke halaman dashboard
-                </p>
-            </div>
-        </button>
+                <!-- Kolom Teks -->
+                <div class="col-span-4 px-4 text-left">
+                    <p class="text-white font-medium group-hover:text-lg group-hover:text-blue-700 transition-all duration-300">
+                        Menu Utama
+                    </p>
+                    <p class="text-sm text-white group-hover:text-md group-hover:text-gray-600 transition-all duration-300 mt-1">
+                        Kembali ke halaman dashboard
+                    </p>
+                </div>
+            </button>
+        </form>
+
     </div>
     @if(Auth::user()&& Auth::user()->t0_role->nama_role==='admin')
     <div class=" w-full h-auto rounded-lg mt-5">

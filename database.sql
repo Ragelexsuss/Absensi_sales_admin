@@ -21,7 +21,7 @@ select * from store_visits;
 delete from t0lokasi;
 delete from t0mission;
 
-
+delete from  t0akunSales;
 DELETE from t0sales_reports;
 DELETE from t0sales_locations;
 DELETE from t0sales_order_reports;

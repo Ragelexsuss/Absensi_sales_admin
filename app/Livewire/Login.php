@@ -63,6 +63,7 @@ class Login extends Component
 //                return;
 //            }
 
+
             $user = \App\Models\User::updateOrCreate(
                 ['username' => $this->email],
                 [
@@ -72,13 +73,21 @@ class Login extends Component
                     'id_area' => $firestoreUser['id_area'],
                     'alamat' => $firestoreUser['alamat'],
                     'nama_role' => $firestoreUser['nama_role'],
-                    'status'=>true
+                    'status'=>$firestoreUser['status'],
                 ]
             );
 
             Auth::login($user, $this->remember);
 
-            return redirect()->intended('/dashboard');
+            if (Auth::user()->status === false){
+                $this->addError('password', 'Akun Ini Tidak Aktif, Silahkan Hubungi Admin');
+                Auth::logout();
+                return;
+            }else{
+                return redirect()->intended('/dashboard');
+
+            }
+
 
         } catch (\Exception $e) {
             $this->addError('email', $e->getMessage());
