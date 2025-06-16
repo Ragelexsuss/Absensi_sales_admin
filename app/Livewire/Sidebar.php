@@ -17,6 +17,10 @@ class Sidebar extends Component
             $this->role = $user->nama_role;
         }
     }
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
+    }
 
     public function render()
     {

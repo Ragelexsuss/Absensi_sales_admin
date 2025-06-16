@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('/login');
-});
+})->name('login');
 
 Route::get('/login', function () {return view('login');})->name('login');
 Route::middleware('auth')->group(function () {
@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function () {
             return view('kelola_map');
         })->name('kelola_map');
         route::get('/home/kelola_map/map', [\App\Http\Controllers\LokasiMap::class, 'index'])->name('map');
+        route::get('/home/kelola_map/maps', [\App\Http\Controllers\LokasiMap::class, 'index2'])->name('maps');
+
         route::get('/home/laporan_sales', function () {
             return view('laporan_sales');
         })->name('laporan_sales');

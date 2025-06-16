@@ -12,6 +12,7 @@ select * from t0sales_reports;
 select * from t0sales_locations;
 select * from t0sales_order_reports;
 select * from t0areas;
+
 select * from t0gudangs;
 select * from store_visits;
 

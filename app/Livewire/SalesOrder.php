@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\lokasi;
+use GPBMetadata\Google\Api\Auth;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Factory;
 use Livewire\Component;
@@ -16,12 +17,20 @@ class SalesOrder extends Component
     public $endDate;
     public $filterApplied = false;
 
+    public $searchOrderPending;
+    public $searchOrderDiterima='';
+    public $idareas='';
+
+
     public function mount()
     {
         // Set default dates (optional)
         $this->startDate = now()->subDays(7)->format('Y-m-d');
         $this->endDate = now()->format('Y-m-d');
         $this->addlokasi();
+
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $this->idareas = $user->id_area;
     }
 
     public function viewDetail($idOrder){
@@ -211,13 +220,19 @@ class SalesOrder extends Component
 
     public function render()
     {
+//        $pendingQuery = \App\Models\SalesOrder::query()->where('status', false)->orderBy('order_date', 'desc');
         $pendingQuery = \App\Models\SalesOrder::query()
             ->where('status', false)
-            ->orderBy('order_date', 'desc');
-
-        $acceptedQuery = \App\Models\SalesOrder::query()
-            ->where('status', true)
-            ->orderBy('order_date', 'desc');
+            ->whereHas('sales', function($query) {
+                $query->where('kota', $this->idareas);
+            })->whereHas('lokasi', function($query) {
+                $query->where('namaToko', 'like', '%' . $this->searchOrderPending . '%');
+            })->orderBy('order_date', 'desc');
+        $acceptedQuery = \App\Models\SalesOrder::query()->where('status', true)->whereHas('sales', function($query) {
+            $query->where('kota', $this->idareas);
+        })->whereHas('lokasi', function($query) {
+            $query->where('namaToko', 'like', '%' . $this->searchOrderDiterima . '%');
+        })->orderBy('order_date', 'desc');
 
         if ($this->filterApplied) {
             $pendingQuery->whereBetween('order_date', [$this->startDate, $this->endDate]);

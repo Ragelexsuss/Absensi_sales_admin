@@ -7,6 +7,7 @@ use App\Models\SalesLocation;
 use App\Models\SalesOrderReport;
 use App\Models\SalesReport;
 use App\Models\StoreVisit;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Factory;
 use Livewire\Component;
@@ -20,12 +21,14 @@ class LaporanSales extends Component
     public $totalDocuments = 0;
 
     public  $idarea;
+    public $role;
     public $processedDocuments = 0;
     public $message = '';
     public function mount(){
         $this->getdata();
         $user = \Illuminate\Support\Facades\Auth::user();
         $this->idarea = $user->id_area;
+        $this->role = $user->nama_role;
 
     }
     public function closealert(){
@@ -188,7 +191,11 @@ class LaporanSales extends Component
     }
     public function render()
     {
-        $dataSales = akun_sales::query()->where('namaPanjang', 'like', '%' . $this->searchtetap . '%')->where('kota',$this->idarea)->where('status', true)->orderBy('id', 'desc')->paginate(5);
+        if ($this->role == 'admin'){
+            $dataSales = akun_sales::query()->where('namaPanjang', 'like', '%' . $this->searchtetap . '%')->where('status', true)->orderBy('id', 'desc')->paginate(5);
+        }else{
+            $dataSales = akun_sales::query()->where('namaPanjang', 'like', '%' . $this->searchtetap . '%')->where('kota',$this->idarea)->where('status', true)->orderBy('id', 'desc')->paginate(5);
+        }
         return view('livewire.laporan-sales', compact('dataSales'));
     }
 }
